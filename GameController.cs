@@ -15,6 +15,10 @@ namespace Game2048
         /// </summary>
         private Stack<GameFields> _moveStack = new Stack<GameFields>();
         /// <summary>
+        /// Множество неуспешных движений. Если число неуспешных движений достигнет 4, то это конец игры.
+        /// </summary>
+        private SortedSet<string> _unSuccessfulMoveSet = new SortedSet<string>();
+        /// <summary>
         /// Старт игры (основная функция класса)
         /// </summary>
         public void Start()
@@ -38,26 +42,27 @@ namespace Game2048
                         Console.WriteLine(Undo() ? "Undo previous move." : "Unable to cancel previous move.");
                         continue;
                     case UserKeyPressedEnum.Left:
-                        if (!MoveLeft())
+                        if (!CheckMove(MoveLeft))
                             continue;
                         break;
                     case UserKeyPressedEnum.Right:
-                        if (!MoveRight())
+                        if (!CheckMove(MoveRight))
                             continue;
                         break;
                     case UserKeyPressedEnum.Up:
-                        if (!MoveUp())
+                        if (!CheckMove(MoveUp))
                             continue;
                         break;
                     case UserKeyPressedEnum.Down:
-                        if (!MoveDown())
+                        if (!CheckMove(MoveDown))
                             continue;
                         break;
                     default:
                         continue;
                 }
 
-                if ( !Fields.IsSuccess && FillNextRamdomField())
+                if ( !Fields.IsSuccess 
+                  && FillNextRamdomField())
                 {
                     continue;
                 }
@@ -180,6 +185,28 @@ namespace Game2048
                     Fields = _moveStack.Peek();
                     ret = true;
                     break;
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Разрешить ли пользователю продолжить попытки нажатия на стрелки
+        /// </summary>
+        /// <param name="moveFunction"></param>
+        /// <returns></returns>
+        protected bool CheckMove(Func<bool> moveFunction)
+        {
+            var ret = moveFunction();
+            if (ret)
+            {
+                _unSuccessfulMoveSet = new SortedSet<string>();
+            }
+            else
+            {
+                _unSuccessfulMoveSet.Add(moveFunction.Method.Name);
+                if (_unSuccessfulMoveSet.Count >= 4)
+                    ret = true;
             }
 
             return ret;

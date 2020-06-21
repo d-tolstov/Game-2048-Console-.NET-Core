@@ -1,2 +1,20 @@
-# Game-2048-Console-.NET-Core
-My realization of well-known game 2048
+# Game 2048 in Console
+Для тренировки написал свою реализацию всем известной игры "2048".  
+Если кто не слышал про неё - https://ru.wikipedia.org/wiki/2048_(игра)
+
+В качестве платформы было выбрано консольное приложение на базе .NET Core.  
+Пользователю доступны следующие клавишы для управления игрой :
+* Escape (выход)
+* R (рестарт)
+* Undo (отмена предыдущего хода)
+* Left arrow
+* Right arrow
+* Down arrow
+* Up arrow
+
+Правила игры описывать не буду.  
+Приведу парочку скриншотов :
+
+<img src="Images\Game_Step1.png"/>
+
+<img src="Images\Game_Over.png"/>
