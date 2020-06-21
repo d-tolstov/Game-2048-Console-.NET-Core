@@ -65,24 +65,30 @@ namespace Game2048
         /// <summary>
         /// Свайпим ячейки игрового поля влево
         /// </summary>
-        public void SwipeFields2Left()
+        public bool SwipeFields2Left()
         {
+            var ret = false;
+            
             for (var i = 0; i < FieldsArray.GetLength(0); i++)
             {
-                SwipeRow2Left(i);
+                if (SwipeRow2Left(i)) ret = true;
             }
+
+            return ret;
         }
         /// <summary>
         /// Свайпим в указанной строке ячейки влево, применяя к ячейкам с одинаковым номиналом соответствующие действия
         /// </summary>
         /// <param name="rowNo"></param>
-        public void SwipeRow2Left(int rowNo)
+        public bool SwipeRow2Left(int rowNo)
         {
             /* Условия свайпа :
              *  все нули смещаются вправо
              *  соседние два числа одинакового номинала схлопываются в одно число
              *  в последовательности из трёх чисел схлопываются только левые два
+             * Если в результате свайпа сдвинулись какие-либо ячейки, то возвращаем true
              */
+            var ret = false;
 
             var newRowList = new List<int>();
             var prevValue = 0;
@@ -92,7 +98,9 @@ namespace Game2048
                 var fieldValue = FieldsArray[rowNo, j];
 
                 if (fieldValue == 0)
+                {
                     continue;
+                }
 
                 if (prevValue == fieldValue)
                 {
@@ -120,15 +128,26 @@ namespace Game2048
             var columnNo = 0;
             foreach (var newValue in newRowList)
             {
-                FieldsArray[rowNo, columnNo] = newValue;
+                if (FieldsArray[rowNo, columnNo] != newValue)
+                {
+                    FieldsArray[rowNo, columnNo] = newValue;
+                    ret = true;
+                }
+
                 columnNo++;
             }
 
             // Заполняем нолями остаток строки
             for (var k = columnNo; k < FieldsArray.GetLength(1); k++)
             {
+                if (FieldsArray[rowNo, k] == 0) 
+                    continue;
+                
                 FieldsArray[rowNo, k] = 0;
+                ret = true;
             }
+
+            return ret;
         }
         /// <summary>
         /// Выводим игровое поле на консоли

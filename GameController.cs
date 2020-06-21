@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace Game2048
 {
@@ -37,16 +38,20 @@ namespace Game2048
                         Console.WriteLine(Undo() ? "Undo previous move." : "Unable to cancel previous move.");
                         continue;
                     case UserKeyPressedEnum.Left:
-                        MoveLeft();
+                        if (!MoveLeft())
+                            continue;
                         break;
                     case UserKeyPressedEnum.Right:
-                        MoveRight();
+                        if (!MoveRight())
+                            continue;
                         break;
                     case UserKeyPressedEnum.Up:
-                        MoveUp();
+                        if (!MoveUp())
+                            continue;
                         break;
                     case UserKeyPressedEnum.Down:
-                        MoveDown();
+                        if (!MoveDown())
+                            continue;
                         break;
                     default:
                         continue;
@@ -182,42 +187,45 @@ namespace Game2048
         /// <summary>
         /// Ход по стрелке влево
         /// </summary>
-        protected void MoveLeft()
+        protected bool MoveLeft()
         {
-            SwipeFieldsToLeft();
+            return SwipeFieldsToLeft();
         }
         /// <summary>
         /// Ход по стрелке вправо
         /// </summary>
-        protected void MoveRight()
+        protected bool MoveRight()
         {
             Fields.RotateFieldsRight();
             Fields.RotateFieldsRight();
-            SwipeFieldsToLeft();
+            var ret = SwipeFieldsToLeft();
             Fields.RotateFieldsRight();
             Fields.RotateFieldsRight();
+            return ret;
         }
         /// <summary>
         /// Ход по стрелке вверх
         /// </summary>
-        protected void MoveUp()
+        protected bool MoveUp()
         {
             Fields.RotateFieldsRight();
             Fields.RotateFieldsRight();
             Fields.RotateFieldsRight();
-            SwipeFieldsToLeft();
+            var ret = SwipeFieldsToLeft();
             Fields.RotateFieldsRight();
+            return ret;
         }
         /// <summary>
         /// Ход по стрелке вниз
         /// </summary>
-        protected void MoveDown()
+        protected bool MoveDown()
         {
             Fields.RotateFieldsRight();
-            SwipeFieldsToLeft();
+            var ret = SwipeFieldsToLeft();
             Fields.RotateFieldsRight();
             Fields.RotateFieldsRight();
             Fields.RotateFieldsRight();
+            return ret;
         }
         /// <summary>
         /// Номер следующего хода
@@ -230,9 +238,9 @@ namespace Game2048
         /// <summary>
         /// Свайпим игровое поле влево
         /// </summary>
-        protected void SwipeFieldsToLeft()
+        protected bool SwipeFieldsToLeft()
         {
-            Fields.SwipeFields2Left();
+            return Fields.SwipeFields2Left();
         }
         /// <summary>
         /// Заполняем произвольную пустую ячейку случайным значением и записываем текущий ход в стек
@@ -254,7 +262,7 @@ namespace Game2048
         protected int RandomFieldValue()
         {
             var rnd = new Random();
-            var rndNumber = rnd.Next(1, 10);
+            var rndNumber = rnd.Next(1, 11);
             // 90% - 2, 10% - 4
             return rndNumber == 10 ? 4 : 2;
         }
