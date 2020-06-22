@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game2048
 {
-    public class GameFields
+    public class GameState
     {
         /// <summary>
         /// Число строк
@@ -29,6 +29,10 @@ namespace Game2048
         /// Признак наступления успешного состояния в игровом поле
         /// </summary>
         public bool IsSuccess;
+        /// <summary>
+        /// Счёт игры
+        /// </summary>
+        public int Score;
         /// <summary>
         /// Вставляем в произвольную незаполненную ячейку указанное значение
         /// </summary>
@@ -105,6 +109,8 @@ namespace Game2048
                 if (prevValue == fieldValue)
                 {
                     var newValue = fieldValue * 2;
+                    // Увеличиваем счёт
+                    Score += newValue;
                     if (newValue == 2048)
                         IsSuccess = true;
 
@@ -155,6 +161,7 @@ namespace Game2048
         public void Show()
         {
             ConsoleIo.ShowFields(FieldsArray, _newValueRowNo, _newValueColumnNo);
+            Console.WriteLine($"Score : {Score}");
         }
         /// <summary>
         /// Поворот игрового поля вправо на 90 градусов
@@ -177,9 +184,9 @@ namespace Game2048
         /// Возвращает копию текущего класса
         /// </summary>
         /// <returns></returns>
-        public GameFields Copy()
+        public GameState Copy()
         {
-            return new GameFields(){ _newValueColumnNo = _newValueColumnNo, _newValueRowNo = _newValueRowNo, FieldsArray = FieldsArray};
+            return new GameState(){ _newValueColumnNo = _newValueColumnNo, _newValueRowNo = _newValueRowNo, FieldsArray = FieldsArray, Score = Score};
         }
     }
 }

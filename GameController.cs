@@ -9,11 +9,11 @@ namespace Game2048
         /// <summary>
         /// Игровое поле
         /// </summary>
-        public GameFields Fields = new GameFields();
+        public GameState Fields = new GameState();
         /// <summary>
         /// Стек ходов (для возвращения назад)
         /// </summary>
-        private Stack<GameFields> _moveStack = new Stack<GameFields>();
+        private Stack<GameState> _moveStack = new Stack<GameState>();
         /// <summary>
         /// Множество неуспешных движений. Если число неуспешных движений достигнет 4, то это конец игры.
         /// </summary>
@@ -73,7 +73,7 @@ namespace Game2048
                 }
                 else
                 {
-                    Console.WriteLine("There is no empty cell. You loose the game!");
+                    Console.WriteLine("There is no empty cell and no available move. You lost the game!");
                 }
 
                 var userAnswer = UserWantToRestart();
@@ -163,8 +163,8 @@ namespace Game2048
         /// </summary>
         protected void InitializeGame()
         {
-            Fields = new GameFields();
-            _moveStack = new Stack<GameFields>();
+            Fields = new GameState();
+            _moveStack = new Stack<GameState>();
             FillNextRamdomField();
         }
         /// <summary>
