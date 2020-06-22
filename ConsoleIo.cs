@@ -19,7 +19,7 @@ namespace Game2048
                 throw new Exception($"Число {valueInt} нельзя отобразить в интерфейсе!");
             var whiteSpaceLeftCount = whiteSpaceCount/2;
             var whiteSpaceRightCount = whiteSpaceCount - whiteSpaceLeftCount;
-            return $"|{new string(repeatedChar,whiteSpaceLeftCount)}{valueStr}{new string(repeatedChar, whiteSpaceRightCount)}|";
+            return $"{new string(repeatedChar,whiteSpaceLeftCount)}{valueStr}{new string(repeatedChar, whiteSpaceRightCount)}|";
         }
         /// <summary>
         /// Строка для отображения пустого ряда чисел
@@ -29,10 +29,10 @@ namespace Game2048
         /// <returns></returns>
         public static string RowPlaceHolderString(int columnCount, char repeatedChar = ' ')
         {
-            var ret = "";
+            var ret = "|";
             for (var i = 1; i <= columnCount; i++)
             {
-                ret += $"|{new string(repeatedChar, FieldWidth)}|";
+                ret += $"{new string(repeatedChar, FieldWidth)}|";
             }
             return ret;
         }
@@ -50,7 +50,7 @@ namespace Game2048
             {
                 Console.WriteLine(RowPlaceHolderString(columnCount));
 
-                var rowString = "";
+                var rowString = "|";
                 for (var j = 0; j < columnCount; j++)
                 {
                     rowString += FieldValue2String(fields[i,j], i==underScoredRowNo && j==underScoredColumnNo ? '_' : ' ');
