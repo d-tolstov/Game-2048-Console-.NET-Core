@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 
 namespace Game2048
 {
@@ -67,14 +66,9 @@ namespace Game2048
                     continue;
                 }
 
-                if (Fields.IsSuccess)
-                {
-                    Console.WriteLine($"You win the game! Totally - {MoveNo() - 1} moves.");
-                }
-                else
-                {
-                    Console.WriteLine("There is no empty cell and no available move. You lost the game!");
-                }
+                Console.WriteLine(Fields.IsSuccess
+                    ? $"You win the game! Totally - {MoveNo() - 1} moves."
+                    : "There is no empty cell and no available move. You lost the game!");
 
                 var userAnswer = UserWantToRestart();
                 if (userAnswer == UserKeyPressedEnum.Escape)
@@ -88,8 +82,6 @@ namespace Game2048
                     case UserKeyPressedEnum.Undo:
                         Console.WriteLine(Undo() ? "Undo previous move." : "Unable to cancel previous move.");
                         break;
-                    default:
-                        break;
                 }
             }
         }
@@ -98,7 +90,7 @@ namespace Game2048
         /// </summary>
         public enum UserKeyPressedEnum
         {
-            None, Escape, Restart, Undo, Left, Right, Up, Down
+            Escape, Restart, Undo, Left, Right, Up, Down
         }
         /// <summary>
         /// Запрашиваем у пользователя его мысли на тему следующего хода

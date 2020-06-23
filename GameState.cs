@@ -160,7 +160,7 @@ namespace Game2048
         /// </summary>
         public void Show()
         {
-            ConsoleIo.ShowFields(FieldsArray, _newValueRowNo, _newValueColumnNo);
+            ConsoleIo.ShowFields(FieldsArray, ConsoleColor.Gray, ConsoleColor.Cyan, _newValueRowNo, _newValueColumnNo);
             Console.WriteLine($"Score : {Score}");
         }
         /// <summary>
@@ -186,7 +186,7 @@ namespace Game2048
         /// <returns></returns>
         public GameState Copy()
         {
-            return new GameState(){ _newValueColumnNo = _newValueColumnNo, _newValueRowNo = _newValueRowNo, FieldsArray = FieldsArray, Score = Score};
+            return new GameState { _newValueColumnNo = _newValueColumnNo, _newValueRowNo = _newValueRowNo, FieldsArray = FieldsArray, Score = Score};
         }
     }
 }
