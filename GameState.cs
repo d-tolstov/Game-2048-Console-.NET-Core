@@ -186,7 +186,7 @@ namespace Game2048
         /// <returns></returns>
         public GameState Copy()
         {
-            return new GameState { _newValueColumnNo = _newValueColumnNo, _newValueRowNo = _newValueRowNo, FieldsArray = FieldsArray, Score = Score};
+            return (GameState)MemberwiseClone();
         }
     }
 }
